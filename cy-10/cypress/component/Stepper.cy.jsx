@@ -48,4 +48,14 @@ describe('<Stepper />', () => {
     cy.get(decrementSelector).click().click()
     cy.get(stepperSelector).should("contain.text", 99)
   });
+
+  it("Clicking + fires a change event with the incremented value", () => {
+    // Arrange
+    const onChangeSpy = cy.spy().as('onChangeSpy')
+    cy.mount(<Stepper onChange={onChangeSpy} />)
+    // Act
+    cy.get(incrementSelector).click()
+    // Assert
+    cy.get('@onChangeSpy').should('have.been.calledOnceWith', 1)
+  });
 })
